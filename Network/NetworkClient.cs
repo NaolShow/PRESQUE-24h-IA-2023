@@ -289,7 +289,7 @@ namespace Network {
             RemainingActions--;
 
             // On demande au serveur de retirer le nain
-            SendMessage($"SONAR|{x}|{y}");
+            SendMessage($"SONAR|{y}|{x}");
             string message = GetMessage();
 
             // TODO: Vérifier ce qu'il se passe si on est tout en bas? manque d'argument?
