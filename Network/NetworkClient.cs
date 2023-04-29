@@ -272,7 +272,7 @@ namespace Network {
         /// <param name="x">La ligne du scan</param>
         /// <param name="y">La colonne du scan</param>
         /// <returns>Les données du scan</returns>
-        public static void Sonar(int x, int y) {
+        public static Cell[] Sonar(int x, int y) {
 
             // On demande au serveur de retirer le nain
             SendMessage($"SONAR|{x}|{y}");
@@ -281,7 +281,7 @@ namespace Network {
             // Si la réponse n'est pas OK
             if (!message.StartsWith("OK")) {
                 Console.WriteLine($"Error while sonaring at pos x={x};y={y}: {message}");
-                return;
+                return null;
             }
 
             // TODO: Vérifier ce qu'il se passe si on est tout en bas? manque d'argument?
@@ -304,6 +304,14 @@ namespace Network {
                 depth++;
 
             }
+
+            // On récupère la liste des cellules sonnées
+            List<Cell> cells = new List<Cell>();
+            for (int z = Map.GetCellAt(x, y).Coords.Z; z < Map.Depth; z++) {
+                cells.Add(Map.Cells[x, y, z]);
+            }
+            return cells.ToArray();
+
 
         }
 
