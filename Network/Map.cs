@@ -16,6 +16,11 @@
         public int Depth { get; set; } = 20;
 
         /// <summary>
+        /// Détermine si le mal a été détecté et que la <see cref="Depth"/> représente la profondeur du mal
+        /// </summary>
+        public bool HasDetectedMal { get; set; } = false;
+
+        /// <summary>
         /// Représente les cellules de la carte
         /// </summary>
         public Cell[,,] Cells { get; }
@@ -49,6 +54,7 @@
             // On copie les valeurs
             Size = map.Size;
             Depth = map.Depth;
+            HasDetectedMal = map.HasDetectedMal;
 
             // On initialise toutes les cellules en les copiant
             Cells = new Cell[Size, Size, Depth];
