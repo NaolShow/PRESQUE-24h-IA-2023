@@ -7,7 +7,7 @@ namespace IA {
         static IAlgorithm algorithm;
         static void Main(string[] args) {
 
-            NetworkClient.IsDebugMode = true;
+            NetworkClient.IsDebugMode = false;
 
             // On attend la connexion
             NetworkClient.WaitForConnection();
@@ -16,13 +16,15 @@ namespace IA {
 
             try
             {
-                algorithm = new AlgorithmSuicide();
+                algorithm = new AlgorithmeDylan();
                 algorithm.Start();
             }
             catch (Exception ex)
             {
                 Console.WriteLine("Déconnecté");
             }
+
+            algorithm.Start();
         }
 
     }
