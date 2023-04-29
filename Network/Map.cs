@@ -113,6 +113,24 @@
         public Cell GetDeepestCellFor(Dwarf dwarf) => GetDeepestCells().Where(a => a.Player == null || a.Dwarf == dwarf).ToArray()[0];
 
         /// <summary>
+        /// Récupère une cellule aléatoire ou il n'y a pas de joueur (ou alors la ou le nain est déjà présent)
+        /// </summary>
+        /// <param name="dwarf">Le nain qui va être déplacé</param>
+        /// <returns>La cellule</returns>
+        public Cell GetRandomCellFor(Dwarf dwarf) {
+
+            Cell? cell = null;
+            while (cell == null || cell.Player != null || cell.Dwarf != dwarf) {
+
+                // Récupère une cellule aléatoire
+                cell = GetCellAt(Random.Shared.Next(0, Size), Random.Shared.Next(0, Size));
+
+            }
+            return cell;
+
+        }
+
+        /// <summary>
         /// Récupère la liste des cellules visibles
         /// </summary>
         /// <returns>La liste des cellules visibles</returns>
