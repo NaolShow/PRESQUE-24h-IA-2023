@@ -30,7 +30,6 @@ namespace IA.Algorithms {
                     }
                     // Si on a assez d'argent pour acheter un nain
                     if (NetworkClient.LocalPlayer.Score >= 250 && NetworkClient.LocalPlayer.Dwarves.Count < 2) {
-                        Console.WriteLine("Dwarf added");
                         NetworkClient.LocalPlayer.HireDwarf();
                         NetworkClient.LocalPlayer.Score -= 250;
                     }
@@ -63,7 +62,6 @@ namespace IA.Algorithms {
                                     // Sinon on enlève le nain pour être safe
                                     if (!findSolution) {
                                         dwarf.Remove();
-                                        Console.WriteLine($"Removed n°{dwarf.ID}");
                                         intentionallyRemoved = true;
                                     }
                                 }
