@@ -10,16 +10,18 @@ namespace IA.Algorithms {
     /// </summary>
     public class AlgorithmeLoan : IAlgorithm {
 
-        private int? currentlyMiningLayer = null;
+        private List<int?> layers = new List<int?>();
 
         public void Start() {
+
+            layers.Add(null);
 
             while (true) {
 
                 NetworkClient.WaitForTurn();
 
-                // On récupère le dwarf
                 Dwarf dwarf = NetworkClient.LocalPlayer.Dwarves[0];
+                int? currentlyMiningLayer = layers[0];
 
                 // Si on minait et que la case est minée alors on enlève le minage
                 if (currentlyMiningLayer != null && dwarf.Cell.Coords.Z > currentlyMiningLayer)
@@ -33,7 +35,7 @@ namespace IA.Algorithms {
 
                     // Si c'est une roche on choppe au sonar
                     if (!IsCellSafe(bestMiningCell) || bestMiningCell.Type == OreType.Rock) {
-                        bestMiningCell = GetBestCellWithSonnared();
+                        bestMiningCell = GetBestCellWithSonnared(dwarf);
                         Console.WriteLine($"Going for x={bestMiningCell.Coords.X};y={bestMiningCell.Coords.Y}");
                     }
 
@@ -51,16 +53,27 @@ namespace IA.Algorithms {
                 int highestPoints = highestPlayer == null ? 0 : highestPlayer.Score;
                 if (NetworkClient.LocalPlayer.Score > 200 && dwarf.Pickaxe == PickaxeType.Wood) {
                     dwarf.Upgrade();
+                    NetworkClient.LocalPlayer.Score -= 200;
                 } else if (NetworkClient.LocalPlayer.Score > highestPoints + 400) {
                     dwarf.Upgrade();
+                    NetworkClient.LocalPlayer.Score -= 400;
                 }
-                // Achat un nain 250
 
-                // Si il nous reste des actions on scan
-                for (int i = 0; i <= NetworkClient.RemainingActions; i++) {
+                // Si on peut toujours acheter un nain
+                if (NetworkClient.LocalPlayer.Score > 250 && NetworkClient.LocalPlayer.Dwarves.Count < 2) {
+                    //NetworkClient.LocalPlayer.HireDwarf();
+                    //layers.Add(null);
+                }
 
-                    // On sonar
-                    Sonar();
+                if (NetworkClient.RemainingActions > 0) {
+
+                    // Si il nous reste des actions on scan
+                    for (int j = 0; j <= NetworkClient.RemainingActions; j++) {
+
+                        // On sonar
+                        Sonar();
+
+                    }
 
                 }
 
@@ -72,15 +85,18 @@ namespace IA.Algorithms {
         }
 
         // Récupère la meilleur cellule en prenant en compte les sonars
-        private Cell GetBestCellWithSonnared() {
+        private Cell GetBestCellWithSonnared(Dwarf dwarf) {
 
             Cell bestPointCell = null;
             int bestPoint = 0;
 
             foreach (Cell cell in NetworkClient.Map.Get2DCells()) {
 
-                // S'il y a un joueur sur cette cellule ou elle est pas safe
-                if (cell.Player != null || !IsCellSafe(cell)) continue;
+                // S'il y a déjà un joeuur et que c'est pas notre dwarf
+                if (cell.Player != null && cell.Dwarf != dwarf) continue;
+
+                // Si la cellule n'est pas safe
+                if (!IsCellSafe(cell)) continue;
 
                 // Récupère les points de la cellule et des trois en dessous
                 int points = 0;
@@ -107,7 +123,7 @@ namespace IA.Algorithms {
 
             // Si on a pas le plus profond alors on rescanne au plus bas
             if (!NetworkClient.Map.HasDetectedMal && deepestCell.Coords.Z >= DeepestScanned() - 1) {
-                Console.WriteLine($"=> Scanned deepest '{deepestCell.Coords.Z}' {DeepestScanned()} at x={deepestCell.Coords.X};y={deepestCell.Coords.Y}");
+                //Console.WriteLine($"=> Scanned deepest '{deepestCell.Coords.Z}' {DeepestScanned()} at x={deepestCell.Coords.X};y={deepestCell.Coords.Y}");
                 NetworkClient.Sonar(deepestCell.Coords.X, deepestCell.Coords.Y);
             }
             // Sinon on scan en random
@@ -122,7 +138,7 @@ namespace IA.Algorithms {
                 }
 
                 NetworkClient.Sonar(cell.Coords.X, cell.Coords.Y);
-                Console.WriteLine($"Scanned for ressources at x={cell.Coords.X};y={cell.Coords.Y}");
+                //Console.WriteLine($"Scanned for ressources at x={cell.Coords.X};y={cell.Coords.Y}");
 
             }
 
@@ -144,7 +160,7 @@ namespace IA.Algorithms {
 
             }
 
-            Console.WriteLine($"{NetworkClient.Map.Depth}:{deepestCell.Coords.Z}: {Math.Min(NetworkClient.Map.Depth, deepestCell.Coords.Z + 3)}");
+            //Console.WriteLine($"{NetworkClient.Map.Depth}:{deepestCell.Coords.Z}: {Math.Min(NetworkClient.Map.Depth, deepestCell.Coords.Z + 3)}");
             //Console.WriteLine($"Found deepest '{deepestCell.Coords.Z}' at x={deepestCell.Coords.X};y={deepestCell.Coords.Y}");
             return deepestCell.Coords.Z;
 
