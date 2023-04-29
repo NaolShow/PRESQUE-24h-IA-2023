@@ -1,9 +1,10 @@
-﻿using Network;
+﻿using IA.Algorithms;
+using Network;
 
 namespace IA {
 
     internal class Program {
-
+        static IAlgorithm algorithm;
         static void Main(string[] args) {
 
             // On attend la connexion
@@ -18,6 +19,8 @@ namespace IA {
 
             Console.ReadLine();
 
+            algorithm = new AlgorithmTest();
+            algorithm.Start();
         }
 
     }
