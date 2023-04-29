@@ -14,13 +14,10 @@ namespace IA {
 
             Console.WriteLine("Connecté");
 
-            try
-            {
+            try {
                 algorithm = new AlgorithmeDylan();
                 algorithm.Start();
-            }
-            catch (Exception ex)
-            {
+            } catch (Exception ex) {
                 Console.WriteLine("Déconnecté");
             }
 
