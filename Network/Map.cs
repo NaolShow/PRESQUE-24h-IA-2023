@@ -57,7 +57,7 @@
             HasDetectedMal = map.HasDetectedMal;
 
             // On initialise toutes les cellules en les copiant
-            Cells = new Cell[Size, Size, Depth];
+            Cells = new Cell[Size, Size, 20];
             for (int x = 0; x < Size; x++) {
                 for (int y = 0; y < Size; y++) {
                     for (int z = 0; z < 20; z++) {
