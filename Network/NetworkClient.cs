@@ -123,7 +123,7 @@ namespace Network {
 
             // On boucle sur tous les joueurs
             int playerID = 0;
-            foreach (string score in message.Split('|').Skip(1)) {
+            foreach (string score in message.Split('|', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries).Skip(1)) {
 
                 // Si le joueur n'existe pas
                 if (!Players.TryGetValue(playerID, out Player player)) {
@@ -219,6 +219,48 @@ namespace Network {
             if (!message.StartsWith("OK")) {
                 Console.WriteLine($"Error while saboting player n°{player.ID}: {message}");
                 return;
+            }
+
+        }
+
+        /// <summary>
+        /// Scan les 4 couches en dessous des coordonnées spécifiées (la profondeur visible comprise)
+        /// </summary>
+        /// <param name="x">La ligne du scan</param>
+        /// <param name="y">La colonne du scan</param>
+        /// <returns>Les données du scan</returns>
+        public static void Sonar(int x, int y) {
+
+            // On demande au serveur de retirer le nain
+            SendMessage($"SONAR|{x}|{y}");
+            string message = GetMessage();
+
+            // Si la réponse n'est pas OK
+            if (!message.StartsWith("OK")) {
+                Console.WriteLine($"Error while sonaring at pos x={x};y={y}: {message}");
+                return;
+            }
+
+            // TODO: Vérifier ce qu'il se passe si on est tout en bas? manque d'argument?
+            string[] sonarDatas = message.Split('|', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries).Skip(1).ToArray();
+
+            // On récupère la profondeur actuelle
+            int depth = Map.GetCellAt(x, y).Coords.Z;
+            foreach (string sonarData in sonarDatas) {
+                int score = int.Parse(sonarData);
+
+                // On récupère la cellule et lui attribue sons core
+                Cell cell = Map.Cells[x, y, depth];
+                cell.SetSonnarizedScore(score);
+
+                // Si le score sonnarisé est -1 c'est le mal ancien
+                if (score == -1)
+                    cell.Type = OreType.Demon;
+                // Sinon on indique que la cellule est sonnarisée
+                else cell.Type = OreType.Sonarized;
+
+                depth++;
+
             }
 
         }

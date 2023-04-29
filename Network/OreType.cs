@@ -6,6 +6,10 @@
     public enum OreType {
 
         /// <summary>
+        /// Représente un type de minerai inconnu, mais avec un score connu qui a été sonnarisé
+        /// </summary>
+        Sonarized,
+        /// <summary>
         /// Représente "vraiment rien" un minerai qui a été miné
         /// </summary>
         Air,
@@ -13,6 +17,10 @@
         /// Représente "rien"
         /// </summary>
         Rock,
+        /// <summary>
+        /// Représente "mal ancien"
+        /// </summary>
+        Demon,
         /// <summary>
         /// Représente "fer"
         /// </summary>

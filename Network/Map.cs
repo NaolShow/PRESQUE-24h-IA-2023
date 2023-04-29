@@ -21,25 +21,6 @@
         public Cell[,,] Cells { get; }
 
         /// <summary>
-        /// Récupère une cellule aux coordonnées spécifiées en prenant le plus profond
-        /// </summary>
-        /// <param name="x">La ligne de la cellule</param>
-        /// <param name="y">La colonne de la cellule</param>
-        /// <returns>La cellule la plus profonde aux coordonnées spécifiées</returns>
-        public Cell GetCellAt(int x, int y) {
-
-            for (int z = 0; z < 20; z++) {
-
-                // Si la cellule n'est pas vide alors on a atteint la plus profonde cellule
-                if (Cells[x, y, z].Type != OreType.Air)
-                    return Cells[x, y, z];
-
-            }
-            throw new Exception("Aucune cellule découverte n'est présente, la carte a été récupérée?");
-
-        }
-
-        /// <summary>
         /// Initialise 
         /// </summary>
         /// <param name="size"></param>
@@ -58,6 +39,26 @@
                 }
             }
         }
+
+        /// <summary>
+        /// Récupère une cellule aux coordonnées spécifiées en prenant le plus profond
+        /// </summary>
+        /// <param name="x">La ligne de la cellule</param>
+        /// <param name="y">La colonne de la cellule</param>
+        /// <returns>La cellule la plus profonde aux coordonnées spécifiées</returns>
+        public Cell GetCellAt(int x, int y) {
+
+            for (int z = 0; z < 20; z++) {
+
+                // Si la cellule n'est pas vide alors on a atteint la plus profonde cellule
+                if (Cells[x, y, z].Type != OreType.Air)
+                    return Cells[x, y, z];
+
+            }
+            throw new Exception("Aucune cellule découverte n'est présente, la carte a été récupérée?");
+
+        }
+
     }
 
 }
