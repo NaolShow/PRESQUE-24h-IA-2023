@@ -19,6 +19,11 @@ namespace Network {
         public static bool IsDebugMode { get; set; } = false;
 
         /// <summary>
+        /// Détermine le nombre d'actions restantes
+        /// </summary>
+        public static int RemainingActions { get; set; }
+
+        /// <summary>
         /// Récupère le joueur local (reçus après <see cref="WaitForConnection"/>
         /// </summary>
         public static Player LocalPlayer => Players[localPlayerID];
@@ -133,6 +138,7 @@ namespace Network {
                 turn = int.Parse(message.Split('|')[1]);
 
             }
+            RemainingActions = 2;
 
             // On demande le score et la carte
             GetScores();
@@ -255,6 +261,7 @@ namespace Network {
         /// </summary>
         /// <param name="player">Le joueur qui va être saboté</param>
         public static void Sabotage(Player player) {
+            RemainingActions--;
 
             // On demande au serveur de retirer le nain
             SendMessage($"SABOTER|{player.ID}");
@@ -275,6 +282,7 @@ namespace Network {
         /// <param name="y">La colonne du scan</param>
         /// <returns>Les données du scan</returns>
         public static Cell[] Sonar(int x, int y) {
+            RemainingActions--;
 
             // On demande au serveur de retirer le nain
             SendMessage($"SONAR|{x}|{y}");

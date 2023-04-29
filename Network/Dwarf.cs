@@ -40,6 +40,7 @@
         /// <param name="y">La colonne sur laquelle le nain va être déplacé</param>
         /// <returns>La cellule sur laquelle le nain se trouvera</returns>
         public Cell Move(int x, int y) {
+            NetworkClient.RemainingActions--;
 
             // On demande au serveur d'avoir un nouveau nain
             // => Erreur les coordonnées sont inversés
@@ -64,6 +65,7 @@
         /// Enlève le nain du plateau
         /// </summary>
         public void Remove() {
+            NetworkClient.RemainingActions--;
 
             // On demande au serveur de retirer le nain
             NetworkClient.SendMessage($"RETIRER|{ID}");
@@ -84,6 +86,7 @@
         /// Améliore la pioche du nain
         /// </summary>
         public void Upgrade() {
+            NetworkClient.RemainingActions--;
 
             // On demande au serveur d'améliorer la pioche du nain
             NetworkClient.SendMessage($"AMELIORER|{ID}");

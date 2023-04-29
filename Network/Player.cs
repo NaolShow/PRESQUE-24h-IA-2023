@@ -30,6 +30,7 @@
         /// Embauche un nain auprès du serveur
         /// </summary>
         public Dwarf HireDwarf() {
+            NetworkClient.RemainingActions--;
 
             // On demande au serveur d'avoir un nouveau nain
             NetworkClient.SendMessage("EMBAUCHER");
