@@ -37,30 +37,7 @@ namespace IA.Algorithms
                         // Si la profondeur de nos nains + 1 est égale à la couche du monstre
                         foreach (Dwarf dwarf in NetworkClient.LocalPlayer.Dwarves)
                         {
-                            if(dwarf.Cell != null)
-                            {
-                                if((dwarf.Cell.Coords.Z + 1) == NetworkClient.Map.Depth)
-                                {
-                                    // On deplace si possible a la meilleur place 
-                                    bool findSolution = false;
-                                    Cell[] cellList = NetworkClient.Map.GetGreatestCells();
-                                    foreach(Cell cell in cellList)
-                                    {
 
-                                        // Si la cellule n'appartient pas à un joueur
-                                        if (NetworkClient.Map.GetCellAt(cell.Coords.X, cell.Coords.Y).Player == null && cell.Coords.Z < NetworkClient.Map.Depth - 1) {
-                                            dwarf.Move(cell.Coords.X, cell.Coords.Y);
-                                            findSolution = true;
-                                            break;
-                                        }
-                                    }
-
-                                    if (!findSolution)
-                                    {
-                                        dwarf.Remove();
-                                    }
-                                }
-                            }
                         }
                     }
                     else
