@@ -44,6 +44,17 @@
         }
 
         /// <summary>
+        /// Copie la cellule spécifiée
+        /// </summary>
+        /// <param name="cell"La cellule qui va être copiée></param>
+        public Cell(Cell cell) {
+            Coords = cell.Coords;
+            Type = cell.Type;
+            sonnarizedScore = cell.sonnarizedScore;
+            Player = cell.Player;
+        }
+
+        /// <summary>
         /// Défini le score sonnarisé (sans connaître le type de minerai)
         /// </summary>
         /// <param name="score">Le score sonnarisé</param>

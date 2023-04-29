@@ -28,16 +28,38 @@
             Size = size;
 
             // Initialise la matrice 3D de la carte avec une profondeur de 20
-            Cells = new Cell[size, size, 20];
+            Cells = new Cell[size, size, Depth];
 
             // On initialise toutes les cellules
             for (int x = 0; x < size; x++) {
                 for (int y = 0; y < size; y++) {
-                    for (int z = 0; z < 20; z++) {
+                    for (int z = 0; z < Depth; z++) {
                         Cells[x, y, z] = new Cell(new Coords(x, y, z));
                     }
                 }
             }
+        }
+
+        /// <summary>
+        /// Copie la map spécifiée
+        /// </summary>
+        /// <param name="map">La map copiée</param>
+        public Map(Map map) {
+
+            // On copie les valeurs
+            Size = map.Size;
+            Depth = map.Depth;
+
+            // On initialise toutes les cellules en les copiant
+            Cells = new Cell[Size, Size, Depth];
+            for (int x = 0; x < Size; x++) {
+                for (int y = 0; y < Size; y++) {
+                    for (int z = 0; z < Depth; z++) {
+                        Cells[x, y, z] = new Cell(map.Cells[x, y, z]);
+                    }
+                }
+            }
+
         }
 
         /// <summary>

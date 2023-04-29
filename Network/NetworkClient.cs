@@ -32,7 +32,17 @@ namespace Network {
         /// <summary>
         /// Représente la carte (reçue après le début de notre tour)
         /// </summary>
-        public static Map Map { get; private set; }
+        public static Map Map => MapsHistory[Round];
+
+        /// <summary>
+        /// Détermine le tour actuel
+        /// </summary>
+        public static int Round { get; private set; } = 0;
+
+        /// <summary>
+        /// Historique des maps
+        /// </summary>
+        public static List<Map> MapsHistory { get; private set; } = new List<Map>();
 
         /// <summary>
         /// Initialise un client qui va communiquer avec le serveur
@@ -128,6 +138,9 @@ namespace Network {
             GetScores();
             GetMap();
 
+            // On sauvegarde le round actuel
+            Round = turn;
+
             return turn;
 
         }
@@ -170,9 +183,11 @@ namespace Network {
             // On récupère les données des cellules
             string[] cellsData = message.Split('|', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
 
-            // Si la carte n'est pas encore définie
-            if (Map == null)
-                Map = new Map((int)MathF.Sqrt(cellsData.Length));
+            // S'il existe aucune map juste avant
+            if (MapsHistory.Count == 0)
+                MapsHistory.Add(new Map((int)MathF.Sqrt(cellsData.Length)));
+            // Sinon on la copie
+            else MapsHistory.Add(new Map(MapsHistory[Round]));
 
             int x = 0;
             int y = 0;
