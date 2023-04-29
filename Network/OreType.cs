@@ -49,6 +49,7 @@
         public static OreType AsOreType(this string oreType) => oreType switch {
             "RIEN" => OreType.Rock,
             "FER" => OreType.Iron,
+            "OR" => OreType.Gold,
             "DIAMANT" => OreType.Diamond,
             "MITHRIL" => OreType.Mithril
         };
