@@ -98,7 +98,7 @@
         /// <summary>
         /// La cellule avec le meilleur score ou il n'y a pas de joueur (ou alors la ou le nain est déjà présent)
         /// </summary>
-        public Cell GetGreatestCellFor(Dwarf dwarf) => GetGreatestCells().Where(a => a.Player == null || a.Player == dwarf.Player).ToArray()[0];
+        public Cell GetGreatestCellFor(Dwarf dwarf) => GetGreatestCells().Where(a => a.Player == null || a.Dwarf == dwarf).ToArray()[0];
 
         /// <summary>
         /// Récupère un tableau de cellules (ordonnées du plus grand au plus petit) étant à la plus grande profondeur<br/>
@@ -110,7 +110,7 @@
         /// <summary>
         /// La cellule la plus profonde ou il n'y a pas de joueur (ou alors la ou le nain est déjà présent)
         /// </summary>
-        public Cell GetDeepestCellFor(Dwarf dwarf) => GetDeepestCells().Where(a => a.Player == null || a.Player == dwarf.Player).ToArray()[0];
+        public Cell GetDeepestCellFor(Dwarf dwarf) => GetDeepestCells().Where(a => a.Player == null || a.Dwarf == dwarf).ToArray()[0];
 
         /// <summary>
         /// Récupère la liste des cellules visibles
