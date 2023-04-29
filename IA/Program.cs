@@ -6,13 +6,12 @@ namespace IA {
 
         static void Main(string[] args) {
 
-            // On initialise le client et on attend la connexion
-            NetworkClient client = new NetworkClient();
-            client.WaitForConnection();
+            // On attend la connexion
+            NetworkClient.WaitForConnection();
 
             Console.WriteLine("Connecté");
 
-            client.WaitForTurn();
+            NetworkClient.WaitForTurn();
 
         }
 

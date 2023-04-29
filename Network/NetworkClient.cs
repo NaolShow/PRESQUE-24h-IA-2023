@@ -5,34 +5,34 @@ namespace Network {
     /// <summary>
     /// Représente le client bas niveau qui communique avec le serveur
     /// </summary>
-    public class NetworkClient {
+    public static class NetworkClient {
 
         private const string teamName = "A.I.G.R.I.";
 
-        private TcpClient client;
-        private StreamReader inStream;
-        private StreamWriter outStream;
+        private static TcpClient client;
+        private static StreamReader inStream;
+        private static StreamWriter outStream;
 
         /// <summary>
         /// Récupère le joueur local (reçus après <see cref="WaitForConnection"/>
         /// </summary>
-        public Player LocalPlayer => Players[localPlayerID];
-        private int localPlayerID;
+        public static Player LocalPlayer => Players[localPlayerID];
+        private static int localPlayerID;
 
         /// <summary>
         /// Détermine l'ensemble des joueurs présents dans la partie
         /// </summary>
-        public Dictionary<int, Player> Players { get; private set; }
+        public static Dictionary<int, Player> Players { get; private set; } = new Dictionary<int, Player>();
 
         /// <summary>
         /// Représente la carte (reçue après le début de notre tour)
         /// </summary>
-        public Map Map { get; private set; }
+        public static Map Map { get; private set; }
 
         /// <summary>
         /// Initialise un client qui va communiquer avec le serveur
         /// </summary>
-        public NetworkClient() {
+        static NetworkClient() {
 
             // Initialisation du client TCP
             client = new TcpClient("127.0.0.1", 1234);
@@ -50,20 +50,20 @@ namespace Network {
         /// Lit le prochain message que le serveur va envoyer (bloque le thread entrant)
         /// </summary>
         /// <returns>Le message du serveur</returns>
-        public string GetMessage() => inStream.ReadLine();
+        public static string GetMessage() => inStream.ReadLine();
 
         /// <summary>
         /// Envoie le message au serveur
         /// </summary>
         /// <param name="message">Le message qui va être envoyé</param>
-        public void SendMessage(string message) => outStream.WriteLine(message);
+        public static void SendMessage(string message) => outStream.WriteLine(message);
 
         /// <summary>
         /// Attend la connexion au serveur et lui indique le nom de l'équipe
         /// </summary>
         /// <returns>Le numéro du client reçus du serveur</returns>
         /// <exception cref="InvalidOperationException">Est lancé lorsque le serveur n'attend pas notre connexion</exception>
-        public int WaitForConnection() {
+        public static int WaitForConnection() {
 
             // Si le message reçu n'est pas "DEBUT_PARTIE" alors on stop
             string message = GetMessage();
@@ -81,7 +81,7 @@ namespace Network {
         /// Attend le tour du client
         /// </summary>
         /// <returns>Le numéro du tour actuel</returns>
-        public int WaitForTurn() {
+        public static int WaitForTurn() {
 
             int turn = -1;
 
@@ -104,17 +104,28 @@ namespace Network {
 
             }
 
-            // On demande la carte
+            // On demande le score et la carte
+            GetScores();
             GetMap();
 
             return turn;
 
         }
 
+        private static void GetScores() {
+
+            // On demande les scores et récupère la réponse
+            SendMessage("SCORES");
+            string message = GetMessage();
+
+            Console.WriteLine(message);
+
+        }
+
         /// <summary>
         /// Demande la carte au serveur et raffraichie les données actuelles
         /// </summary>
-        private void GetMap() {
+        private static void GetMap() {
 
             // On demande les informations de la carte et récupère la réponse
             SendMessage("CARTE");
@@ -163,7 +174,7 @@ namespace Network {
         /// <summary>
         /// Indique la fin du tour en cours
         /// </summary>
-        public void DoEndTurn() {
+        public static void DoEndTurn() {
 
             // On indique que l'on souhaite terminer notre tour
             SendMessage("FIN_TOUR");

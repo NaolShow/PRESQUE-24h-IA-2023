@@ -25,9 +25,14 @@
         public int Quantity { get; set; } = 0;
 
         /// <summary>
-        /// Représente le joueur possédant un nain sur la cellule (ou null si aucun joueur n'est dessus)
+        /// Représente le joueur qui occupe la cellule
         /// </summary>
-        public Player? Player { get; set; } = null;
+        public Player Player { get; set; } = null;
+
+        /// <summary>
+        /// Récupère le nain (ou null) qui est présent sur la cellule
+        /// </summary>
+        public Dwarf? Dwarf => Player?.Dwarves.Where(a => a.Cell == this).FirstOrDefault();
 
         /// <summary>
         /// Initialise un cellule à des coordonnées
