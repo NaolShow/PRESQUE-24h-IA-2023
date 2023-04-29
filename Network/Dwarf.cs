@@ -98,6 +98,8 @@
                 return;
             }
 
+            Pickaxe = Pickaxe.GetNext();
+
         }
 
     }
