@@ -60,7 +60,7 @@
             Cells = new Cell[Size, Size, Depth];
             for (int x = 0; x < Size; x++) {
                 for (int y = 0; y < Size; y++) {
-                    for (int z = 0; z < Depth; z++) {
+                    for (int z = 0; z < 20; z++) {
                         Cells[x, y, z] = new Cell(map.Cells[x, y, z]);
                     }
                 }
