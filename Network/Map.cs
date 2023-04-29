@@ -11,9 +11,9 @@
         public int Size { get; }
 
         /// <summary>
-        /// Représente la profondeur de la carte (la profondeur à laquelle le mal a été trouvé, sinon égal à 20)
+        /// Représente la profondeur de la carte qui a été découverte (ou la profondeur à laquelle le mal a été trouvé)
         /// </summary>
-        public int Depth { get; set; } = 20;
+        public int Depth { get; set; } = 0;
 
         /// <summary>
         /// Détermine si le mal a été détecté et que la <see cref="Depth"/> représente la profondeur du mal
@@ -33,12 +33,12 @@
             Size = size;
 
             // Initialise la matrice 3D de la carte avec une profondeur de 20
-            Cells = new Cell[size, size, Depth];
+            Cells = new Cell[size, size, 20];
 
             // On initialise toutes les cellules
             for (int x = 0; x < size; x++) {
                 for (int y = 0; y < size; y++) {
-                    for (int z = 0; z < Depth; z++) {
+                    for (int z = 0; z < 20; z++) {
                         Cells[x, y, z] = new Cell(new Coords(x, y, z));
                     }
                 }

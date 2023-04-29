@@ -300,6 +300,10 @@ namespace Network {
                 // Sinon on indique que la cellule est sonnarisée
                 else cell.Type = OreType.Sonarized;
 
+                // Si on a pas détecté le mal
+                if (!Map.HasDetectedMal)
+                    Map.Depth = depth;
+
                 depth++;
 
             }
