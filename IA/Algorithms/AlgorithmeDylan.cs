@@ -19,32 +19,19 @@ namespace IA.Algorithms {
 
                     // Si le nain n'est pas placé on le place au meilleur endroit sur la map
                     if (dwarf.Cell == null) {
-
-                        Cell[] cells = NetworkClient.Map.GetGreatestCells();
-                        int i = 0;
-
-                        Cell? cell = null;
-                        while (cell == null) {
-
-                            cell = cells[i];
-                            i++;
-
-                            if (cell.Player != null || cell.Coords.Z < NetworkClient.Map.Depth - 1)
-                                cell = null;
-
-                        }
+                        Cell cell = NetworkClient.Map.GetGreatestCellFor(dwarf);
                         dwarf.Move(cell.Coords.X, cell.Coords.Y);
                     }
 
-                    // Si on a assez d'argent on up en fer
-                    if (NetworkClient.LocalPlayer.Score >= 200 && dwarf.Pickaxe == PickaxeType.Wood) {
-                        dwarf.Upgrade();
-                        NetworkClient.LocalPlayer.Score -= 200;
-                    }
                     // Si on a assez d'argent pour acheter un nain
                     if (NetworkClient.LocalPlayer.Score >= 250 && NetworkClient.LocalPlayer.Dwarves.Count < 2) {
                         NetworkClient.LocalPlayer.HireDwarf();
                         NetworkClient.LocalPlayer.Score -= 250;
+                    }
+                    // Si on a assez d'argent on up en fer
+                    if (NetworkClient.LocalPlayer.Score >= 300 && dwarf.Pickaxe == PickaxeType.Wood) {
+                        dwarf.Upgrade();
+                        NetworkClient.LocalPlayer.Score -= 200;
                     }
 
                     // Si le nain peut être en danger
