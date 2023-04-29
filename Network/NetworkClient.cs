@@ -219,6 +219,8 @@ namespace Network {
                 cell.Quantity = int.Parse(informations[1]);
                 cell.Type = informations[2].AsOreType();
                 cell.Player = clientID == -1 ? null : Players[clientID];
+                if (clientID != -1)
+                    cell.HasBeenExplored = true;
 
                 // On incrémente les coordonnées
                 x++;

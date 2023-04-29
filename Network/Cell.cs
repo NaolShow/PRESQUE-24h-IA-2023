@@ -36,6 +36,11 @@
         public Dwarf Dwarf => Player?.Dwarves.Where(a => a.Cell == this).FirstOrDefault();
 
         /// <summary>
+        /// Détermine si la cellule a été visitée par un joueur
+        /// </summary>
+        public bool HasBeenExplored { get; set; } = false;
+
+        /// <summary>
         /// Initialise un cellule à des coordonnées
         /// </summary>
         /// <param name="coords">Les coordonnées de la cellule</param>
@@ -52,6 +57,7 @@
             Type = cell.Type;
             sonnarizedScore = cell.sonnarizedScore;
             Player = cell.Player;
+            HasBeenExplored = cell.HasBeenExplored;
         }
 
         /// <summary>
