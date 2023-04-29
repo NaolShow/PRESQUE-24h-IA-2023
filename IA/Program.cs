@@ -14,8 +14,15 @@ namespace IA {
 
             Console.WriteLine("Connecté");
 
-            algorithm = new AlgorithmRandom();
-            algorithm.Start();
+            try
+            {
+                algorithm = new AlgorithmSuicide();
+                algorithm.Start();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Déconnecté");
+            }
         }
 
     }
