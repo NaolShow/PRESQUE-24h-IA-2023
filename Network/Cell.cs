@@ -25,9 +25,9 @@
         public int Quantity { get; set; } = 0;
 
         /// <summary>
-        /// Représente le nain sur la cellule (ou null si aucun nain n'est dessus)
+        /// Représente le joueur possédant un nain sur la cellule (ou null si aucun joueur n'est dessus)
         /// </summary>
-        public Dwarf Dwarf { get; set; } = null;
+        public Player? Player { get; set; } = null;
 
         /// <summary>
         /// Initialise un cellule à des coordonnées

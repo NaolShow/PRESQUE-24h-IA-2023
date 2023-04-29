@@ -14,9 +14,15 @@ namespace Network {
         private StreamWriter outStream;
 
         /// <summary>
-        /// Détermine l'identifiant du client donné par le serveur (reçus après <see cref="WaitForConnection"/>)
+        /// Récupère le joueur local (reçus après <see cref="WaitForConnection"/>
         /// </summary>
-        public int ClientID { get; private set; }
+        public Player LocalPlayer => Players[localPlayerID];
+        private int localPlayerID;
+
+        /// <summary>
+        /// Détermine l'ensemble des joueurs présents dans la partie
+        /// </summary>
+        public Dictionary<int, Player> Players { get; private set; }
 
         /// <summary>
         /// Représente la carte (reçue après le début de notre tour)
@@ -65,8 +71,9 @@ namespace Network {
 
             // On envoie le nom de l'équipe, puis on récupère notre identifiant dans la partie
             SendMessage(teamName);
-            ClientID = int.Parse(GetMessage().Split('|')[1]);
-            return ClientID;
+            localPlayerID = int.Parse(GetMessage().Split('|')[1]);
+            Players.Add(localPlayerID, new Player(localPlayerID));
+            return localPlayerID;
 
         }
 
@@ -140,6 +147,7 @@ namespace Network {
                 // On récupère et sauvegarde les données des cellules
                 cell.Quantity = int.Parse(informations[1]);
                 cell.Type = informations[2].AsOreType();
+                cell.Player = clientID == -1 ? null : Players[clientID];
 
                 // On incrémente les coordonnées
                 x++;
