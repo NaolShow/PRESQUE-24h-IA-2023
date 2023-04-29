@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Network;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,5 +9,14 @@ namespace IA.Algorithms
 {
     public class AlgorithmTest : IAlgorithm
     {
+        public void Start()
+        {
+            NetworkClient.WaitForTurn();
+
+            // On embauche un nain
+            NetworkClient.LocalPlayer.Dwarves[0].Move(4, 4);
+
+            Console.ReadLine();
+        }
     }
 }

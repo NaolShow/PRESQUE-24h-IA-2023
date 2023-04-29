@@ -12,13 +12,6 @@ namespace IA {
 
             Console.WriteLine("Connecté");
 
-            NetworkClient.WaitForTurn();
-
-            // On embauche un nain
-            NetworkClient.LocalPlayer.Dwarves[0].Move(4, 4);
-
-            Console.ReadLine();
-
             algorithm = new AlgorithmTest();
             algorithm.Start();
         }

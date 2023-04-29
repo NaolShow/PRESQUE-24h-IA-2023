@@ -134,7 +134,6 @@ namespace Network {
                 // On donne le score du joueur
                 player.Score = int.Parse(score);
                 playerID++;
-
             }
 
         }
