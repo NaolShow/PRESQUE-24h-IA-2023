@@ -19,7 +19,20 @@ namespace IA.Algorithms {
 
                     // Si le nain n'est pas placé on le place au meilleur endroit sur la map
                     if (dwarf.Cell == null) {
-                        Cell cell = NetworkClient.Map.GetGreatestCellFor(dwarf);
+
+                        Cell[] cells = NetworkClient.Map.GetGreatestCells();
+                        int i = 0;
+
+                        Cell? cell = null;
+                        while (cell == null) {
+
+                            cell = cells[i];
+                            i++;
+
+                            if (cell.Player != null || cell.Coords.Z < NetworkClient.Map.Depth - 1)
+                                cell = null;
+
+                        }
                         dwarf.Move(cell.Coords.X, cell.Coords.Y);
                     }
 
