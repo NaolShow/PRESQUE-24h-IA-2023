@@ -14,6 +14,11 @@ namespace Network {
         private static StreamWriter outStream;
 
         /// <summary>
+        /// Détermine si on est en mode de débuggage dans la console
+        /// </summary>
+        public static bool IsDebugMode { get; set; } = false;
+
+        /// <summary>
         /// Récupère le joueur local (reçus après <see cref="WaitForConnection"/>
         /// </summary>
         public static Player LocalPlayer => Players[localPlayerID];
@@ -50,13 +55,28 @@ namespace Network {
         /// Lit le prochain message que le serveur va envoyer (bloque le thread entrant)
         /// </summary>
         /// <returns>Le message du serveur</returns>
-        public static string GetMessage() => inStream.ReadLine();
+        public static string GetMessage() {
+            string message = inStream.ReadLine();
+
+            // Si on est en mode de débug
+            if (IsDebugMode)
+                Console.WriteLine($"[<-] {message}");
+            return message;
+
+        }
 
         /// <summary>
         /// Envoie le message au serveur
         /// </summary>
         /// <param name="message">Le message qui va être envoyé</param>
-        public static void SendMessage(string message) => outStream.WriteLine(message);
+        public static void SendMessage(string message) {
+            outStream.WriteLine(message);
+
+            // Si on est en mode de débug
+            if (IsDebugMode)
+                Console.WriteLine($"[->] {message}");
+
+        }
 
         /// <summary>
         /// Attend la connexion au serveur et lui indique le nom de l'équipe
