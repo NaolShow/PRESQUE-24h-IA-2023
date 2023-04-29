@@ -20,16 +20,20 @@ namespace IA.Algorithms {
                     // Si le nain n'est pas placé on le place au meilleur endroit sur la map
                     if (dwarf.Cell == null) {
 
-                        Cell[] cellList = NetworkClient.Map.GetGreatestCells();
-                        foreach (Cell cell in cellList) {
+                        Cell[] cells = NetworkClient.Map.GetGreatestCells();
+                        int i = 0;
 
-                            // Si la cellule n'appartient pas à un joueur
-                            if (NetworkClient.Map.GetCellAt(cell.Coords.X, cell.Coords.Y).Player == null && cell.Coords.Z < NetworkClient.Map.Depth - 1) {
-                                dwarf.Move(cell.Coords.X, cell.Coords.Y);
-                                break;
-                            }
+                        Cell? cell = null;
+                        while (cell == null) {
+
+                            cell = cells[i];
+                            i++;
+
+                            if (cell.Player != null || cell.Coords.Z < NetworkClient.Map.Depth - 1)
+                                cell = null;
+
                         }
-
+                        dwarf.Move(cell.Coords.X, cell.Coords.Y);
                     }
 
                     // Si on a assez d'argent on up en fer
