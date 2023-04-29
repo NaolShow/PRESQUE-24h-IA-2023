@@ -228,6 +228,10 @@ namespace Network {
                 if (clientID != -1)
                     cell.HasBeenExplored = true;
 
+                // Si la depth est plus loin
+                if (Map.Depth < cell.Coords.Z)
+                    Map.Depth = cell.Coords.Z;
+
                 // On incrémente les coordonnées
                 x++;
                 if (x >= Map.Size) {
