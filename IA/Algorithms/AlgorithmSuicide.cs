@@ -30,14 +30,42 @@ namespace IA.Algorithms
                 // Vérification pour le maximum de la depth
                 if (NetworkClient.Map.Depth >= 9)
                 {
-                    
+                    if (NetworkClient.LocalPlayer.Score >= 200 && NetworkClient.LocalPlayer.Dwarves[0].Pickaxe == PickaxeType.Wood)
+                    {
+                        NetworkClient.LocalPlayer.Dwarves[0].Upgrade();
+                    }
+
                     // Si on a déjà trouvé le monstre
                     if (NetworkClient.Map.HasDetectedMal)
                     {
                         // Si la profondeur de nos nains + 1 est égale à la couche du monstre
                         foreach (Dwarf dwarf in NetworkClient.LocalPlayer.Dwarves)
                         {
+                            if (dwarf.Cell != null)
+                            {
+                                if ((dwarf.Cell.Coords.Z + 1) == NetworkClient.Map.Depth)
+                                {
+                                    // On deplace si possible a la meilleur place 
+                                    bool findSolution = false;
+                                    Cell[] cellList = NetworkClient.Map.GetGreatestCells();
+                                    foreach (Cell cell in cellList)
+                                    {
 
+                                        // Si la cellule n'appartient pas à un joueur
+                                        if (NetworkClient.Map.GetCellAt(cell.Coords.X, cell.Coords.Y).Player == null && cell.Coords.Z < NetworkClient.Map.Depth - 1)
+                                        {
+                                            dwarf.Move(cell.Coords.X, cell.Coords.Y);
+                                            findSolution = true;
+                                            break;
+                                        }
+                                    }
+
+                                    if (!findSolution)
+                                    {
+                                        dwarf.Remove();
+                                    }
+                                }
+                            }
                         }
                     }
                     else
@@ -55,8 +83,8 @@ namespace IA.Algorithms
                     }
                 }
 
-                /*
-                if (this.GoSuicide(2000))
+                
+                if (this.GoSuicide(3000))
                 {
                     Dwarf bestDwarf = NetworkClient.LocalPlayer.Dwarves[0];
                     foreach (Dwarf dwarf in NetworkClient.LocalPlayer.Dwarves)
@@ -92,7 +120,7 @@ namespace IA.Algorithms
 
 
 
-                }*/
+                }
 
                 yourTurn = false;
                 //On met fin au tour

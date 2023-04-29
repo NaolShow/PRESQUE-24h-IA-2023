@@ -16,7 +16,7 @@ namespace IA {
 
             try
             {
-                algorithm = new AlgorithmeDylan();
+                algorithm = new AlgorithmSuicide();
                 algorithm.Start();
             }
             catch (Exception ex)
