@@ -16,13 +16,11 @@ namespace IA.Algorithms {
 
                     // Si on a fini
                     if (dwarf.Cell == null && intentionallyRemoved) continue;
-                    Console.WriteLine($"{dwarf.ID} go");
 
                     // Si le nain n'est pas placé on le place au meilleur endroit sur la map
                     if (dwarf.Cell == null) {
                         Cell cell = NetworkClient.Map.GetGreatestCellFor(dwarf);
                         dwarf.Move(cell.Coords.X, cell.Coords.Y);
-                        Console.WriteLine($"Moved dwarf n°{dwarf.ID}");
                     }
 
                     // Si on a assez d'argent on up en fer
