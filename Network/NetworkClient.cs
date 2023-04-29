@@ -272,9 +272,8 @@ namespace Network {
                 Cell cell = Map.Cells[x, y, depth];
                 cell.SetSonnarizedScore(score);
 
-                // Si le score sonnarisé est -1 c'est le mal ancien
-                if (score == -1)
-                    cell.Type = OreType.Demon;
+                // Si le score sonnarisé est -1 c'est le mal ancien donc on sauvegarde la couche
+                if (score == -1) Map.Depth = depth;
                 // Sinon on indique que la cellule est sonnarisée
                 else cell.Type = OreType.Sonarized;
 

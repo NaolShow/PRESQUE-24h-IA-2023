@@ -18,10 +18,6 @@
         /// </summary>
         Rock,
         /// <summary>
-        /// Représente "mal ancien"
-        /// </summary>
-        Demon,
-        /// <summary>
         /// Représente "fer"
         /// </summary>
         Iron,

@@ -11,9 +11,9 @@
         public int Size { get; }
 
         /// <summary>
-        /// Représente la profondeur de la carte
+        /// Représente la profondeur de la carte (la profondeur à laquelle le mal a été trouvé, sinon égal à 20)
         /// </summary>
-        public int Depth { get; } = 20;
+        public int Depth { get; set; } = 20;
 
         /// <summary>
         /// Représente les cellules de la carte
