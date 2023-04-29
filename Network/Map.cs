@@ -81,6 +81,36 @@
 
         }
 
+        /// <summary>
+        /// Récupère la liste ordonnée des cellules ayant le meilleur score<br/>
+        /// Attention: faut vérifier avant de se déplacer s'il y a un joueur sur cette cellul<br/>
+        /// Faut également vérifier si le mal est pas juste en dessous avant de miner!
+        /// </summary>
+        /// <returns>Les cellules ordonnées par score</returns>
+        public Cell[] GetOrderedScoreList() => Get2DCells().OrderByDescending(a => a.TotalScore).ToArray();
+
+        /// <summary>
+        /// Récupère la liste ordonnée des cellules ayant le meilleur score<br/>
+        /// Attention: faut vérifier avant de se déplacer s'il y a un joueur sur cette cellul<br/>
+        /// Faut également vérifier si le mal est pas juste en dessous avant de miner!
+        /// </summary>
+        /// <returns>Les cellules ordonnées par score</returns>
+        public Cell GetBestCellWithoutPlayer() => GetOrderedScoreList().Where(a => a.Player == null).ToArray()[0];
+
+        /// <summary>
+        /// Récupère la liste des cellules visibles
+        /// </summary>
+        /// <returns>La liste des cellules visibles</returns>
+        public List<Cell> Get2DCells() {
+
+            List<Cell> cells = new List<Cell>();
+            for (int x = 0; x < Size; x++)
+                for (int y = 0; y < Size; y++)
+                    cells.Add(GetCellAt(x, y));
+            return cells;
+
+        }
+
     }
 
 }
