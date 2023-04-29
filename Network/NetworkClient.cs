@@ -187,7 +187,16 @@ namespace Network {
             if (MapsHistory.Count == 0)
                 MapsHistory.Add(new Map((int)MathF.Sqrt(cellsData.Length)));
             // Sinon on la copie
-            else MapsHistory.Add(new Map(MapsHistory[Round]));
+            else {
+                MapsHistory.Add(new Map(MapsHistory[Round]));
+                Round++;
+
+                // On déplace nos dwarfs sur la nouvelle map
+                foreach (Dwarf dwarf in LocalPlayer.Dwarves)
+                    if (dwarf.Cell != null)
+                        dwarf.Cell = Map.GetCellAt(dwarf.Cell.Coords.X, dwarf.Cell.Coords.Y);
+
+            }
 
             int x = 0;
             int y = 0;

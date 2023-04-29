@@ -21,9 +21,9 @@
         public PickaxeType Pickaxe { get; private set; } = PickaxeType.Wood;
 
         /// <summary>
-        /// La cellule sur laquelle le nain se trouve (ou null si le nain n'appartient pas au joueur local)
+        /// La cellule sur laquelle le nain se trouve (ou null si le nain n'appartient pas au joueur local ou a été retiré du plateau)
         /// </summary>
-        public Cell Cell { get; } = null;
+        public Cell? Cell { get; set; } = null;
 
         /// <summary>
         /// Initialise un nain
@@ -50,7 +50,12 @@
                 Console.WriteLine($"Error while moving dwarf n°{ID}: {message}");
                 return null;
             }
-            return NetworkClient.Map.GetCellAt(x, y);
+
+            // On enlève notre nain à sa celle actuelle et on le bouge sur la prochaine cellule
+            if (Cell != null)
+                Cell.Player = null;
+            Cell = NetworkClient.Map.GetCellAt(x, y);
+            return Cell;
 
         }
 
@@ -68,6 +73,9 @@
                 Console.WriteLine($"Error while removing dwarf n°{ID}: {message}");
                 return;
             }
+
+            // On enlève le nain d'une cellule
+            Cell = null;
 
         }
 
