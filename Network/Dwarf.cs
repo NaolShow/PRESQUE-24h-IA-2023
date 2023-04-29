@@ -42,7 +42,8 @@
         public Cell Move(int x, int y) {
 
             // On demande au serveur d'avoir un nouveau nain
-            NetworkClient.SendMessage($"DEPLACER|{ID}|{x}|{y}");
+            // => Erreur les coordonnées sont inversés
+            NetworkClient.SendMessage($"DEPLACER|{ID}|{y}|{x}");
             string message = NetworkClient.GetMessage();
 
             // Si la réponse n'est pas OK
