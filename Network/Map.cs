@@ -82,20 +82,29 @@
         }
 
         /// <summary>
-        /// Récupère la liste ordonnée des cellules ayant le meilleur score<br/>
-        /// Attention: faut vérifier avant de se déplacer s'il y a un joueur sur cette cellul<br/>
-        /// Faut également vérifier si le mal est pas juste en dessous avant de miner!
+        /// Récupère un tableau de cellules (ordonnées du plus grand au plus petit) ayant le meilleur score<br/>
+        /// Attention: faut vérifier avant de se déplacer s'il y a un joueur sur cette cellule<br/>
+        /// Faut également vérifier si le mal est pas juste en dessous
         /// </summary>
-        /// <returns>Les cellules ordonnées par score</returns>
-        public Cell[] GetOrderedScoreList() => Get2DCells().OrderByDescending(a => a.TotalScore).ToArray();
+        /// <returns>Les cellules ordonnées par la profondeur</returns>
+        public Cell[] GetGreatestCells() => Get2DCells().OrderByDescending(a => a.TotalScore).ToArray();
 
         /// <summary>
-        /// Récupère la liste ordonnée des cellules ayant le meilleur score<br/>
-        /// Attention: faut vérifier avant de se déplacer s'il y a un joueur sur cette cellul<br/>
-        /// Faut également vérifier si le mal est pas juste en dessous avant de miner!
+        /// La cellule avec le meilleur score ou il n'y a pas de joueur
         /// </summary>
-        /// <returns>Les cellules ordonnées par score</returns>
-        public Cell GetBestCellWithoutPlayer() => GetOrderedScoreList().Where(a => a.Player == null).ToArray()[0];
+        public Cell GetGreatestCellWithoutPlayer() => GetGreatestCells().Where(a => a.Player == null).ToArray()[0];
+
+        /// <summary>
+        /// Récupère un tableau de cellules (ordonnées du plus grand au plus petit) étant à la plus grande profondeur<br/>
+        /// Attention: faut vérifier avant de se déplacer s'il y a un joueur sur cette cellule<br/>
+        /// Faut également vérifier si le mal est pas juste en dessous
+        /// </summary>
+        /// <returns>Les cellules ordonnées par la profondeur</returns>
+        public Cell[] GetDeepestCells() => Get2DCells().OrderByDescending(a => a.Coords.Z).ToArray();
+        /// <summary>
+        /// La cellule la plus profonde ou il n'y a pas de joueur
+        /// </summary>
+        public Cell GetDeepestCellWithoutPlayer() => GetDeepestCells().Where(a => a.Player == null).ToArray()[0];
 
         /// <summary>
         /// Récupère la liste des cellules visibles
