@@ -278,14 +278,8 @@ namespace Network {
             SendMessage($"SONAR|{x}|{y}");
             string message = GetMessage();
 
-            // Si la réponse n'est pas OK
-            if (!message.StartsWith("OK")) {
-                Console.WriteLine($"Error while sonaring at pos x={x};y={y}: {message}");
-                return null;
-            }
-
             // TODO: Vérifier ce qu'il se passe si on est tout en bas? manque d'argument?
-            string[] sonarDatas = message.Split('|', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries).Skip(1).ToArray();
+            string[] sonarDatas = message.Split('|', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries).ToArray();
 
             // On récupère la profondeur actuelle
             int depth = Map.GetCellAt(x, y).Coords.Z;
@@ -309,8 +303,10 @@ namespace Network {
             }
 
             // On récupère la liste des cellules sonnées
+            int currentDepth = Map.GetCellAt(x, y).Coords.Z;
+            int lowest = Math.Min(Map.Depth, currentDepth + 4);
             List<Cell> cells = new List<Cell>();
-            for (int z = Map.GetCellAt(x, y).Coords.Z; z < Map.Depth; z++) {
+            for (int z = currentDepth; z < lowest; z++) {
                 cells.Add(Map.Cells[x, y, z]);
             }
             return cells.ToArray();
