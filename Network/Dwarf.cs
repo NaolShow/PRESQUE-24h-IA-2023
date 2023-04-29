@@ -31,6 +31,7 @@
         /// <param name="player">Le joueur a qui appartient le nain</param>
         public Dwarf(Player player, int id) {
             Player = player;
+            ID = id;
         }
 
         /// <summary>
