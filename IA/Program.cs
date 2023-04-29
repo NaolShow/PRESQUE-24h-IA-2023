@@ -13,6 +13,11 @@ namespace IA {
 
             NetworkClient.WaitForTurn();
 
+            // On embauche un nain
+            NetworkClient.LocalPlayer.Dwarves[0].Move(4, 4);
+
+            Console.ReadLine();
+
         }
 
     }
