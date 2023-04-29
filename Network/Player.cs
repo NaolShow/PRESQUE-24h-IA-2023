@@ -7,6 +7,8 @@
 
         public int ID { get; }
 
+        public int Score { get; set; }
+
         /// <summary>
         /// Les nains du joueur (attention, ne pas utiliser les valeurs des nains des autres joueurs autre que le joueur local)
         /// </summary>

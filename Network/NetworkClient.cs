@@ -118,7 +118,21 @@ namespace Network {
             SendMessage("SCORES");
             string message = GetMessage();
 
-            Console.WriteLine(message);
+            // On boucle sur tous les joueurs
+            int playerID = 0;
+            foreach (string score in message.Split('|').Skip(1)) {
+
+                // Si le joueur n'existe pas
+                if (!Players.TryGetValue(playerID, out Player player)) {
+                    Players[playerID] = new Player(playerID);
+                    player = Players[playerID];
+                }
+
+                // On donne le score du joueur
+                player.Score = int.Parse(score);
+                playerID++;
+
+            }
 
         }
 
