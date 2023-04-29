@@ -229,7 +229,7 @@ namespace Network {
                     cell.HasBeenExplored = true;
 
                 // Si la depth est plus loin
-                if (Map.Depth < cell.Coords.Z)
+                if (Map.Depth < cell.Coords.Z && !Map.HasDetectedMal)
                     Map.Depth = cell.Coords.Z;
 
                 // On incrémente les coordonnées
