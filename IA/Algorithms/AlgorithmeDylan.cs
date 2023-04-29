@@ -4,19 +4,19 @@ namespace IA.Algorithms {
     public class AlgorithmeDylan : IAlgorithm {
         public void Start() {
 
+            bool intentionallyRemoved = false;
+
             // 
             while (true) {
 
                 NetworkClient.WaitForTurn();
 
-                bool intentionallyRemoved = false;
-
                 // On boucle sur tous nos nains
                 foreach (Dwarf dwarf in NetworkClient.LocalPlayer.Dwarves.ToList()) {
-                    Console.WriteLine($"{dwarf.ID} go");
 
                     // Si on a fini
                     if (dwarf.Cell == null && intentionallyRemoved) continue;
+                    Console.WriteLine($"{dwarf.ID} go");
 
                     // Si le nain n'est pas placé on le place au meilleur endroit sur la map
                     if (dwarf.Cell == null) {
@@ -65,6 +65,7 @@ namespace IA.Algorithms {
                                     // Sinon on enlève le nain pour être safe
                                     if (!findSolution) {
                                         dwarf.Remove();
+                                        Console.WriteLine($"Removed n°{dwarf.ID}");
                                         intentionallyRemoved = true;
                                     }
                                 }
