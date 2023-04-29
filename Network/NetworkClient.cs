@@ -112,6 +112,9 @@ namespace Network {
 
         }
 
+        /// <summary>
+        /// Demande les scores au serveur et raffraichie les données actuelles
+        /// </summary>
         private static void GetScores() {
 
             // On demande les scores et récupère la réponse
@@ -199,6 +202,24 @@ namespace Network {
             // Si c'est bien le message de fin de tour on laisse sinon on log
             if (message.StartsWith("TOUR_FINI")) return;
             else Console.WriteLine($"Erreur lors du passage de tour: {message}");
+
+        }
+
+        /// <summary>
+        /// Sabote le joueur spécifié
+        /// </summary>
+        /// <param name="player">Le joueur qui va être saboté</param>
+        public static void Sabotage(Player player) {
+
+            // On demande au serveur de retirer le nain
+            SendMessage($"SABOTER|{player.ID}");
+            string message = GetMessage();
+
+            // Si la réponse n'est pas OK
+            if (!message.StartsWith("OK")) {
+                Console.WriteLine($"Error while saboting player n°{player.ID}: {message}");
+                return;
+            }
 
         }
 

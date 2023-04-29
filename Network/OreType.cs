@@ -55,11 +55,11 @@
         /// <param name="oreType">L'OreType qui possède un score</param>
         /// <returns>Le score de l'OreType</returns>
         public static int ToScore(this OreType oreType) => oreType switch {
-            OreType.Air or OreType.Rock => 0,
             OreType.Iron => 10,
             OreType.Gold => 20,
             OreType.Diamond => 40,
-            OreType.Mithril => 80
+            OreType.Mithril => 80,
+            _ => 0
         };
 
     }
