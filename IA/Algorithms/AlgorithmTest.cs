@@ -13,7 +13,7 @@ namespace IA.Algorithms
         {
             NetworkClient.WaitForTurn();
 
-            // On embauche un nain
+            // On déplace notre nain initial
             NetworkClient.LocalPlayer.Dwarves[0].Move(4, 4);
 
             Console.ReadLine();

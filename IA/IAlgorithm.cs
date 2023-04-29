@@ -6,8 +6,14 @@ using System.Threading.Tasks;
 
 namespace IA
 {
+    /// <summary>
+    /// Interface gérant un algorithme
+    /// </summary>
     public interface IAlgorithm
     {
+        /// <summary>
+        /// Démarre l'algorithme si la partie est commencé
+        /// </summary>
         public void Start();
     }
 }
