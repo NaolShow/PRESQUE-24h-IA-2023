@@ -32,8 +32,10 @@ namespace IA.Algorithms {
                     Cell bestMiningCell = NetworkClient.Map.GetGreatestCellFor(dwarf);
 
                     // Si c'est une roche on choppe au sonar
-                    if (!IsCellSafe(bestMiningCell) || bestMiningCell.Type == OreType.Rock)
+                    if (!IsCellSafe(bestMiningCell) || bestMiningCell.Type == OreType.Rock) {
                         bestMiningCell = GetBestCellWithSonnared();
+                        Console.WriteLine($"Going for x={bestMiningCell.Coords.X};y={bestMiningCell.Coords.Y}");
+                    }
 
                     // On indique la hauteur de mining
                     currentlyMiningLayer = bestMiningCell.Coords.Z;
@@ -45,7 +47,11 @@ namespace IA.Algorithms {
                 }
 
                 // Si j'ai assez pour upgrade de pioche
+                Player? highestPlayer = NetworkClient.Players.Select(a => a.Value).Where(a => a != NetworkClient.LocalPlayer).OrderByDescending(a => a.Score).FirstOrDefault();
+                int highestPoints = highestPlayer == null ? 0 : highestPlayer.Score;
                 if (NetworkClient.LocalPlayer.Score > 200 && dwarf.Pickaxe == PickaxeType.Wood) {
+                    dwarf.Upgrade();
+                } else if (NetworkClient.LocalPlayer.Score > highestPoints + 400) {
                     dwarf.Upgrade();
                 }
                 // Achat un nain 250
@@ -100,7 +106,8 @@ namespace IA.Algorithms {
             Cell deepestCell = NetworkClient.Map.GetDeepestCells()[0];
 
             // Si on a pas le plus profond alors on rescanne au plus bas
-            if (!NetworkClient.Map.HasDetectedMal && deepestCell.Coords.Z == DeepestScanned() - 1) {
+            if (!NetworkClient.Map.HasDetectedMal && deepestCell.Coords.Z >= DeepestScanned() - 1) {
+                Console.WriteLine($"=> Scanned deepest '{deepestCell.Coords.Z}' {DeepestScanned()} at x={deepestCell.Coords.X};y={deepestCell.Coords.Y}");
                 NetworkClient.Sonar(deepestCell.Coords.X, deepestCell.Coords.Y);
             }
             // Sinon on scan en random
@@ -115,6 +122,7 @@ namespace IA.Algorithms {
                 }
 
                 NetworkClient.Sonar(cell.Coords.X, cell.Coords.Y);
+                Console.WriteLine($"Scanned for ressources at x={cell.Coords.X};y={cell.Coords.Y}");
 
             }
 
@@ -123,27 +131,27 @@ namespace IA.Algorithms {
         private int DeepestScanned() {
 
             Cell deepestCell = null;
-            int deepest = 0;
 
             foreach (Cell cell in NetworkClient.Map.Get2DCells()) {
 
                 // Récupère les points de la cellule et des trois en dessous
-                for (int i = cell.Coords.Z; i <= Math.Min(NetworkClient.Map.Depth, cell.Coords.Z + 3); i++) {
+                for (int i = cell.Coords.Z; i <= (cell.Coords.Z + 3); i++) {
                     Cell subCell = NetworkClient.Map.Cells[cell.Coords.X, cell.Coords.Y, i];
-                    if (deepestCell == null || (subCell.Type == OreType.Sonarized && subCell.Coords.Z > deepest)) {
+                    if (deepestCell == null || (subCell.Type == OreType.Sonarized && subCell.Coords.Z > deepestCell.Coords.Z)) {
                         deepestCell = subCell;
-                        deepest = subCell.Coords.Z;
                     }
                 }
 
             }
 
+            Console.WriteLine($"{NetworkClient.Map.Depth}:{deepestCell.Coords.Z}: {Math.Min(NetworkClient.Map.Depth, deepestCell.Coords.Z + 3)}");
+            //Console.WriteLine($"Found deepest '{deepestCell.Coords.Z}' at x={deepestCell.Coords.X};y={deepestCell.Coords.Y}");
             return deepestCell.Coords.Z;
 
         }
 
         private bool IsCellSafe(Cell cell) {
-            return cell.Coords.Z < 9 || cell.Coords.Z < NetworkClient.Map.Depth;
+            return cell.Coords.Z < 9 || cell.Coords.Z < NetworkClient.Map.Depth - 1;
         }
 
     }
